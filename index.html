@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vega Group — Contact Us</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --brand: #093890; --brand-dark: #062a6a; --brand-light: #e8eef8;
+      --text: #1a1a2e; --muted: #6b7280; --surface: #ffffff;
+      --bg: #f0f4fb; --border: #e4eaf7; --radius: 16px;
+      --shadow: 0 2px 16px rgba(9,56,144,0.09);
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); min-height: 100vh; direction: ltr; color: var(--text); }
+    body.ar { font-family: 'Cairo', sans-serif; direction: rtl; }
+
+    .lang-bar { position: sticky; top: 0; z-index: 100; background: rgba(6,42,106,0.96); backdrop-filter: blur(8px); display: flex; justify-content: flex-end; padding: 0.45rem 1rem; }
+    .lang-btn { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: white; border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: 'Cairo','Inter',sans-serif; transition: background 0.2s; }
+    .lang-btn:hover { background: rgba(255,255,255,0.2); }
+
+    .hero { background: linear-gradient(160deg,#062a6a 0%,#093890 55%,#1a56d4 100%); color: white; text-align: center; padding: 2rem 1.5rem 3.5rem; position: relative; overflow: hidden; }
+    .hero::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E"); }
+    .hero-logo { position:relative; display:inline-flex; align-items:center; gap:.6rem; margin-bottom:.4rem; }
+    .hero-hex { width:42px; height:42px; }
+    .hero-name { font-size:1.9rem; font-weight:800; letter-spacing:-0.5px; }
+    .hero-tagline { position:relative; font-size:.82rem; opacity:.65; margin-bottom:1rem; }
+    .hero-cta { position:relative; font-size:.95rem; font-weight:600; background:rgba(255,255,255,.12); display:inline-block; padding:.4rem 1.3rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); }
+
+    .cards { padding:1.25rem 1rem 2rem; display:flex; flex-direction:column; gap:.85rem; max-width:520px; margin:-1.75rem auto 0; position:relative; z-index:1; }
+    .section-label { font-size:.7rem; font-weight:700; color:var(--muted); letter-spacing:.8px; text-transform:uppercase; padding:.5rem .25rem .15rem; }
+    .card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card-header { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.1rem; cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent; gap:.75rem; }
+    .card-header:active { background:var(--brand-light); }
+    .card-title-wrap { display:flex; align-items:center; gap:.85rem; }
+    .card-icon-wrap { width:40px; height:40px; border-radius:10px; background:var(--brand-light); display:flex; align-items:center; justify-content:center; font-size:1.15rem; flex-shrink:0; }
+    .card-label { font-weight:700; font-size:.95rem; color:var(--brand); line-height:1.2; }
+    .card-label-sub { font-size:.7rem; color:var(--muted); margin-top:2px; }
+    .chevron { font-size:.72rem; color:var(--brand); width:22px; height:22px; border-radius:50%; background:var(--brand-light); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform .28s cubic-bezier(.4,0,.2,1); }
+    .card.open .chevron { transform:rotate(180deg); }
+    .card-body { border-top:1px solid var(--border); padding:.6rem 1rem .7rem; display:none; }
+    .card.open .card-body { display:block; }
+
+    .info-row { display:flex; align-items:center; gap:.7rem; padding:.5rem .35rem; border-bottom:1px solid #f3f6fc; text-decoration:none; border-radius:8px; }
+    .info-row:last-child { border-bottom:none; }
+    a.info-row:hover, a.info-row:active { background:var(--brand-light); }
+    .info-icon-cell { width:28px; height:28px; border-radius:7px; background:var(--brand-light); display:flex; align-items:center; justify-content:center; font-size:.88rem; flex-shrink:0; }
+    .info-main { flex:1; min-width:0; }
+    .info-label { font-size:.65rem; color:var(--muted); line-height:1; }
+    .info-value { font-size:.88rem; color:var(--brand); font-weight:600; direction:ltr; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .info-value.plain { color:var(--text); font-weight:500; direction:inherit; white-space:normal; }
+    .info-arrow { font-size:.65rem; color:var(--muted); flex-shrink:0; }
+    div.info-row .info-arrow { display:none; }
+
+    .hot .card-icon-wrap, .hot .info-icon-cell { background:#fff3e0; }
+    .hot .card-label, .hot .chevron { color:#c75c00; }
+    .hot .chevron { background:#fff3e0; }
+    .hot .card-header:active { background:#fff8f0; }
+
+    .branch .card-icon-wrap, .branch .info-icon-cell { background:#edf7ef; }
+    .branch .card-label, .branch .chevron { color:#1a6b32; }
+    .branch .chevron { background:#edf7ef; }
+    .branch .card-header:active { background:#f0faf2; }
+
+    .footer { text-align:center; padding:1rem 1rem 2.5rem; color:var(--muted); font-size:.78rem; }
+    .footer span { opacity:.4; margin:0 .4rem; }
+  </style>
+</head>
+<body>
+
+<div class="lang-bar">
+  <button class="lang-btn" onclick="switchLang()">
+    <span>🌐</span>
+    <span id="langLabel">العربية</span>
+  </button>
+</div>
+
+<div class="hero">
+  <div class="hero-logo">
+    <svg class="hero-hex" viewBox="0 0 44 44" fill="none">
+      <polygon points="22,2 40,12 40,32 22,42 4,32 4,12" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+      <text x="22" y="27" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="800" fill="white">V</text>
+    </svg>
+    <span class="hero-name">Vega Group</span>
+  </div>
+  <div class="hero-tagline" data-en="Smart Home · Computer &amp; Software · Gift Shop" data-ar="سمارت هوم · كمبيوتر وسوفتوير · جيفت شوب">Smart Home · Computer &amp; Software · Gift Shop</div>
+  <div class="hero-cta" data-en="Get in touch anytime" data-ar="تواصل معنا في أي وقت">Get in touch anytime</div>
+</div>
+
+<div class="cards">
+
+  <div class="card open hot" id="c-hotline">
+    <div class="card-header" onclick="toggle('c-hotline')">
+      <div class="card-title-wrap">
+        <div class="card-icon-wrap">🔥</div>
+        <div>
+          <div class="card-label" data-en="Hotline" data-ar="الخط الساخن">Hotline</div>
+          <div class="card-label-sub" data-en="Direct support line" data-ar="خط الدعم المباشر">Direct support line</div>
+        </div>
+      </div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <a class="info-row" href="tel:01282220220">
+        <div class="info-icon-cell">☎️</div>
+        <div class="info-main"><div class="info-label" data-en="Call directly" data-ar="اتصل مباشر">Call directly</div><div class="info-value">01282220220</div></div>
+        <div class="info-arrow">›</div>
+      </a>
+      <a class="info-row" href="https://wa.me/201282220220">
+        <div class="info-icon-cell">💬</div>
+        <div class="info-main"><div class="info-label" data-en="WhatsApp" data-ar="واتساب مباشر">WhatsApp</div><div class="info-value">01282220220</div></div>
+        <div class="info-arrow">›</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card" id="c-sh">
+    <div class="card-header" onclick="toggle('c-sh')">
+      <div class="card-title-wrap">
+        <div class="card-icon-wrap">🏠</div>
+        <div>
+          <div class="card-label" data-en="Vega Smart Home" data-ar="فيجا سمارت هوم">Vega Smart Home</div>
+          <div class="card-label-sub" data-en="Automation &amp; smart systems" data-ar="أنظمة الأتمتة والمنازل الذكية">Automation &amp; smart systems</div>
+        </div>
+      </div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <a class="info-row" href="tel:01222521022"><div class="info-icon-cell">📱</div><div class="info-main"><div class="info-label" data-en="Mobile" data-ar="موبايل">Mobile</div><div class="info-value">01222521022</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://wa.me/201222520922"><div class="info-icon-cell">💬</div><div class="info-main"><div class="info-label" data-en="WhatsApp" data-ar="واتساب">WhatsApp</div><div class="info-value">01222520922</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://vegagroup.tech"><div class="info-icon-cell">🌐</div><div class="info-main"><div class="info-label" data-en="Website" data-ar="الموقع الإلكتروني">Website</div><div class="info-value">vegagroup.tech</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://www.facebook.com/Vegagroup.smart.home"><div class="info-icon-cell">📘</div><div class="info-main"><div class="info-label" data-en="Facebook" data-ar="فيسبوك">Facebook</div><div class="info-value">Vegagroup.smart.home</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://www.instagram.com/vegagroup.smart/"><div class="info-icon-cell">📸</div><div class="info-main"><div class="info-label" data-en="Instagram" data-ar="إنستجرام">Instagram</div><div class="info-value">@vegagroup.smart</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://www.youtube.com/@vegagroup.technology"><div class="info-icon-cell">▶️</div><div class="info-main"><div class="info-label" data-en="YouTube" data-ar="يوتيوب">YouTube</div><div class="info-value">@vegagroup.technology</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://www.tiktok.com/@vega.group.smart.home"><div class="info-icon-cell">🎵</div><div class="info-main"><div class="info-label" data-en="TikTok" data-ar="تيك توك">TikTok</div><div class="info-value">@vega.group.smart.home</div></div><div class="info-arrow">›</div></a>
+    </div>
+  </div>
+
+  <div class="card" id="c-comp">
+    <div class="card-header" onclick="toggle('c-comp')">
+      <div class="card-title-wrap">
+        <div class="card-icon-wrap">💻</div>
+        <div>
+          <div class="card-label" data-en="Vega Computer &amp; Software" data-ar="فيجا كمبيوتر وسوفتوير">Vega Computer &amp; Software</div>
+          <div class="card-label-sub" data-en="Tech solutions &amp; software" data-ar="حلول تقنية وبرمجيات">Tech solutions &amp; software</div>
+        </div>
+      </div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <a class="info-row" href="tel:01222520722"><div class="info-icon-cell">📱</div><div class="info-main"><div class="info-label" data-en="Mobile" data-ar="موبايل">Mobile</div><div class="info-value">01222520722</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://wa.me/201067544876"><div class="info-icon-cell">💬</div><div class="info-main"><div class="info-label" data-en="WhatsApp" data-ar="واتساب">WhatsApp</div><div class="info-value">01067544876</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://www.facebook.com/vegagroup.computer.software"><div class="info-icon-cell">📘</div><div class="info-main"><div class="info-label" data-en="Facebook" data-ar="فيسبوك">Facebook</div><div class="info-value">vegagroup.computer.software</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://www.instagram.com/vega.computer"><div class="info-icon-cell">📸</div><div class="info-main"><div class="info-label" data-en="Instagram" data-ar="إنستجرام">Instagram</div><div class="info-value">@vega.computer</div></div><div class="info-arrow">›</div></a>
+    </div>
+  </div>
+
+  <div class="card" id="c-gift">
+    <div class="card-header" onclick="toggle('c-gift')">
+      <div class="card-title-wrap">
+        <div class="card-icon-wrap">🎁</div>
+        <div>
+          <div class="card-label" data-en="Vega Gift Shop" data-ar="فيجا جيفت شوب">Vega Gift Shop</div>
+          <div class="card-label-sub" data-en="Gifts &amp; accessories" data-ar="هدايا وإكسسوارات">Gifts &amp; accessories</div>
+        </div>
+      </div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <a class="info-row" href="tel:01274721928"><div class="info-icon-cell">📱</div><div class="info-main"><div class="info-label" data-en="Mobile" data-ar="موبايل">Mobile</div><div class="info-value">01274721928</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://wa.me/201274721928"><div class="info-icon-cell">💬</div><div class="info-main"><div class="info-label" data-en="WhatsApp" data-ar="واتساب">WhatsApp</div><div class="info-value">01274721928</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://www.facebook.com/vegagiftshop"><div class="info-icon-cell">📘</div><div class="info-main"><div class="info-label" data-en="Facebook" data-ar="فيسبوك">Facebook</div><div class="info-value">vegagiftshop</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="https://www.instagram.com/vegagroupgiftshop"><div class="info-icon-cell">📸</div><div class="info-main"><div class="info-label" data-en="Instagram" data-ar="إنستجرام">Instagram</div><div class="info-value">@vegagroupgiftshop</div></div><div class="info-arrow">›</div></a>
+    </div>
+  </div>
+
+  <div class="section-label" data-en="Our Branches" data-ar="الفروع">Our Branches</div>
+
+  <div class="card branch" id="c-asafra">
+    <div class="card-header" onclick="toggle('c-asafra')">
+      <div class="card-title-wrap">
+        <div class="card-icon-wrap">📍</div>
+        <div><div class="card-label" data-en="El Asafra Branch" data-ar="فرع العصافرة">El Asafra Branch</div></div>
+      </div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <a class="info-row" href="tel:035577820"><div class="info-icon-cell">📞</div><div class="info-main"><div class="info-label" data-en="Landline" data-ar="تليفون الفرع">Landline</div><div class="info-value">035577820</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="tel:01222520722"><div class="info-icon-cell">📱</div><div class="info-main"><div class="info-label" data-en="Mobile" data-ar="موبايل">Mobile</div><div class="info-value">01222520722</div></div><div class="info-arrow">›</div></a>
+    </div>
+  </div>
+
+  <div class="card branch" id="c-gleem">
+    <div class="card-header" onclick="toggle('c-gleem')">
+      <div class="card-title-wrap">
+        <div class="card-icon-wrap">📍</div>
+        <div><div class="card-label" data-en="Gleem Branch" data-ar="فرع جناكليس">Gleem Branch</div></div>
+      </div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <a class="info-row" href="tel:035825888"><div class="info-icon-cell">📞</div><div class="info-main"><div class="info-label" data-en="Landline" data-ar="تليفون الفرع">Landline</div><div class="info-value">035825888</div></div><div class="info-arrow">›</div></a>
+      <a class="info-row" href="tel:01222521022"><div class="info-icon-cell">📱</div><div class="info-main"><div class="info-label" data-en="Mobile" data-ar="موبايل">Mobile</div><div class="info-value">01222521022</div></div><div class="info-arrow">›</div></a>
+    </div>
+  </div>
+
+  <div class="card branch" id="c-cairo">
+    <div class="card-header" onclick="toggle('c-cairo')">
+      <div class="card-title-wrap">
+        <div class="card-icon-wrap">🏙️</div>
+        <div><div class="card-label" data-en="Cairo Branch" data-ar="فرع القاهرة">Cairo Branch</div></div>
+      </div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <a class="info-row" href="tel:01067544876"><div class="info-icon-cell">📱</div><div class="info-main"><div class="info-label" data-en="Mobile" data-ar="موبايل">Mobile</div><div class="info-value">01067544876</div></div><div class="info-arrow">›</div></a>
+      <div class="info-row"><div class="info-icon-cell">🚚</div><div class="info-main"><div class="info-value plain" data-en="Shipping &amp; installation nationwide" data-ar="شحن وتركيب لجميع المحافظات">Shipping &amp; installation nationwide</div></div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Vega Group <span>·</span> <span id="yr"></span> <span>·</span>
+  <span data-en="All rights reserved" data-ar="جميع الحقوق محفوظة">All rights reserved</span>
+</div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  var lang = 'en';
+  function toggle(id){ document.getElementById(id).classList.toggle('open'); }
+  function switchLang(){
+    lang = lang === 'en' ? 'ar' : 'en';
+    var isAr = lang === 'ar';
+    document.body.classList.toggle('ar', isAr);
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+    document.getElementById('langLabel').textContent = isAr ? 'English' : 'العربية';
+    document.querySelectorAll('[data-en]').forEach(function(el){
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+  }
+</script>
+</body>
+</html>
